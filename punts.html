@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Clubs de Natació</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Estils propis -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Mapa de Clubs de Natació</h1>
+    <div class="contenidor">
+        <!-- Barra lateral -->
+        <aside class="barra-lateral">
+            <h2>Filtrar per Ciutat</h2>
+            <select id="filtres-ciutats">
+                <option value="Totes">Totes</option>
+            </select>
+            <h2>Llista de Clubs</h2>
+            <ul id="llista-clubs"></ul>
+        </aside>
+
+        <!-- Dropzone i Mapa -->
+        <div class="contingut-principal">
+            <div id="dropzone">Arrossega el fitxer CSV (natacio.csv) aquí</div>
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- PapaParse JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Script personalitzat -->
+    <script src="/js/app.js"></script>
+</body>
+</html>
