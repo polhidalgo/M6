@@ -3,7 +3,6 @@
 // Classe per gestionar el mapa i els marcadors per als clubs de natació
 class MapaNatacio {
     constructor() {
-        // Vista inicial centrada a Barcelona (per exemple)
         this.mapa = L.map('map').setView([40.4637, -3.7492], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
