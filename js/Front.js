@@ -4,6 +4,36 @@ export class Front {
         this.csv = csv;
         this.configurarDropzone();
         this.configurarFiltres();
+        this.configurarBuscador();
+    }
+
+    configurarBuscador() {
+        const buscador = document.getElementById('buscador-clubs');
+        buscador.addEventListener('input', () => {
+            this.aplicarFiltres();
+        });
+    }
+
+    aplicarFiltres() {
+        const textBusqueda = document.getElementById('buscador-clubs').value.toLowerCase();
+        const ciutatSeleccionada = document.getElementById('filtres-ciutats').value;
+        
+        let clubsFiltrats = this.csv.totsElsClubs;
+        
+        // Aplicar filtre per ciutat
+        if (ciutatSeleccionada !== "Totes") {
+            clubsFiltrats = clubsFiltrats.filter(club => club.ciutat === ciutatSeleccionada);
+        }
+        
+        // Aplicar filtre de text
+        if (textBusqueda) {
+            clubsFiltrats = clubsFiltrats.filter(club => 
+                club.nom.toLowerCase().includes(textBusqueda) || 
+                (club.ciutat && club.ciutat.toLowerCase().includes(textBusqueda))
+            );
+        }
+        
+        this.mapa.mostrarClubs(clubsFiltrats);
     }
 
     configurarDropzone() {
@@ -51,6 +81,7 @@ export class Front {
             // Mostrem tots els clubs un cop processat el CSV
             this.mapa.mostrarClubs(clubs);
             this.afegirEsdevenimentsDelete();
+            this.aplicarFiltres();
         };
 
         // Quan es selecciona una ciutat, es filtra la llista
@@ -62,18 +93,21 @@ export class Front {
             }
             this.mapa.mostrarClubs(clubsFiltrats);
             this.afegirEsdevenimentsDelete();
+            this.aplicarFiltres();
         });
     }
 
     afegirEsdevenimentsDelete() {
-        document.querySelectorAll('.btn-delete').forEach(btn => {
-            btn.addEventListener('click', (event) => {
+        document.getElementById('llista-clubs').addEventListener('click', (event) => {
+            const btnDelete = event.target.closest('.btn-delete');
+            if (btnDelete) {
                 event.stopPropagation();
-                const nom = event.target.getAttribute('data-nom');
+                const nom = btnDelete.getAttribute('data-nom');
                 if (confirm("Estàs segur que vols eliminar aquest club?")) {
                     this.mapa.eliminarClub(nom);
+                    this.csv.totsElsClubs = this.csv.totsElsClubs.filter(c => c.nom !== nom);
                 }
-            });
+            }
         });
     }
 }

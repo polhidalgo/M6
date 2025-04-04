@@ -41,8 +41,7 @@ export class Mapa {
                 // Crear element de la llista lateral
                 const elementLlista = document.createElement('li');
                 elementLlista.innerHTML = `<b>${nom}</b><br>${ciutat}<br><img src="${imatge}" width="100">${bandera ? `<img src="${bandera}" width="30">` : ''}
-                    <button class="btn-delete" data-nom="${nom}">❌</button>`;
-                // En fer clic, centrar el mapa sobre aquest club i obrir el popup
+                    <button class="btn-delete" data-nom="${nom}" style="cursor:pointer;">❌</button>`;
                 elementLlista.addEventListener('click', () => {
                     this.mapa.setView([parseFloat(latitud), parseFloat(longitud)], 15);
                     marcador.openPopup();
@@ -52,22 +51,22 @@ export class Mapa {
         });
     }
 
-    // Elimina un club pel seu nom (tanto del mapa com de la llista)
+    // Elimina un club pel seu nom 
     eliminarClub(nom) {
+        // Eliminar marcador del mapa
         if (this.marcadors.has(nom)) {
             this.mapa.removeLayer(this.marcadors.get(nom));
             this.marcadors.delete(nom);
         }
-        // Eliminar de la llista lateral
+         // Eliminar de la llista lateral
         const llistaClubs = document.getElementById('llista-clubs');
         const elements = llistaClubs.querySelectorAll('li');
         elements.forEach(el => {
-            if (el.innerHTML.includes(nom)) {
+            if (el.querySelector('b').textContent === nom) { 
                 el.remove();
             }
         });
-        // Eliminar també de la llista global del gestor CSV
-        this.csv.totsElsClubs = this.csv.totsElsClubs.filter(c => c.nom !== nom);
+        
     }
 
     controlCSV(csv) {
